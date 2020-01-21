@@ -50,8 +50,8 @@ namespace GamingWebApp
             ConfigureTypedClients(services);
             ConfigureSecurity(services);
             ConfigureTelemetry(services);
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc(options => options.EnableEndpointRouting = false).
+                            SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         private void ConfigureTelemetry(IServiceCollection services)
@@ -108,15 +108,7 @@ namespace GamingWebApp
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseEndpoints(endpoints =>
-            {
-
-                //endpoints.MapDefaultControllerRoute(); // default behavior
-
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
         }
     }
 }
